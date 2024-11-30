@@ -5,12 +5,15 @@
       "src": "index.js",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["views/**", "public/**"]
+        "includeFiles": [
+          "views/**/*",
+          "public/**/*",
+          "helpers/**/*",
+          "controllers/**/*",
+          "models/**/*",
+          "routes/**/*"
+        ]
       }
-    },
-    {
-      "src": "public/**",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -41,8 +44,5 @@
       "src": "/(.*)",
       "dest": "/index.js"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 } 

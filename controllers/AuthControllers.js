@@ -1,6 +1,6 @@
 const { UPDATE } = require('sequelize/lib/query-types')
 const User = require('../models/User')
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcrypt')
 
 module.exports = class AuthControllers {
 
@@ -15,7 +15,7 @@ module.exports = class AuthControllers {
             req.session.userid = 'admin'; 
             req.flash('message', 'Login de administrador realizado com sucesso');
             return req.session.save(() => {
-                res.redirect('eventos/dashboard',); 
+                res.redirect('/eventos/dashboard');
             });
         }
 
