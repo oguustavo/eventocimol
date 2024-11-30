@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon ./index.js",
-    "vercel-build": "node db/sync.js"
+    "vercel-build": "node db/sync.js",
+    "build": "npm run vercel-build"
   },
   "keywords": [],
   "author": "",

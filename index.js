@@ -1,7 +1,6 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const session = require('express-session')
-const FileStore = require('session-file-store')(session)
 const flash = require('express-flash')
 const helpers = require('./helpers/handlebars')
 
@@ -65,22 +64,18 @@ app.use(express.json())
 
 app.use(
     session({
-        name:'session',
-        secret:'nosso_secret',
-        resave:false,
-        saveUninitialized:false,
-        store: new FileStore({
-            logFn: function(){},
-            path: require('path').join(require('os').tmpdir(), 'sessions'),
-        }),
-        cookie:{
-            secure:false,
-            maxAge:360000,
-            expires: new Date(Date.now()+360000),
-            httpOnly:true
+        name: 'session',
+        secret: 'nosso_secret',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 360000,
+            expires: new Date(Date.now() + 360000),
+            httpOnly: true
         }
-    }),
-)
+    })
+);
 
 app.use(flash())
 app.use(express.static('public'))
@@ -116,7 +111,11 @@ function checkAuth(req, res, next) {
     next();
 }
 
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
-});
+conn
+    .sync()
+    //.sync({force:true})
+    .then(() => {
+        console.log('Banco de dados sincronizado');
+        app.listen(3000);
+    })
+    .catch((err) => console.log(err));
