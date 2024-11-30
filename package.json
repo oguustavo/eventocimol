@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./index.js localhost 3000",
-    "vercel-build": "echo hello"
+    "start": "nodemon ./index.js localhost 3000"
   },
   "keywords": [],
   "author": "",
@@ -22,10 +21,11 @@
     "express-handlebars": "^8.0.1",
     "express-session": "^1.18.0",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^3.1.4",
-    "pg": "^8.13.1",
+    "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.3",
-    "session-file-store": "^1.5.0"
+    "sequelize": "^6.37.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
 }
