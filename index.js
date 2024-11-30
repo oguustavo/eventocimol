@@ -1,8 +1,9 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
+const session = require('express-session')
+const FileStore = require('session-file-store')(session)
 const flash = require('express-flash')
 const helpers = require('./helpers/handlebars')
-const cookieSession = require('cookie-session')
 
 const app = express()
 
@@ -63,13 +64,22 @@ app.use(
 app.use(express.json())
 
 app.use(
-    cookieSession({
-        name: 'session',
-        keys: ['nosso_secret'],
-        maxAge: 360000,
-        secure: process.env.NODE_ENV === 'production',
-        httpOnly: true
-    })
+    session({
+        name:'session',
+        secret:'nosso_secret',
+        resave:false,
+        saveUninitialized:false,
+        store: new FileStore({
+            logFn: function(){},
+            path: require('path').join(require('os').tmpdir(), 'sessions'),
+        }),
+        cookie:{
+            secure:false,
+            maxAge:360000,
+            expires: new Date(Date.now()+360000),
+            httpOnly:true
+        }
+    }),
 )
 
 app.use(flash())
@@ -81,19 +91,6 @@ app.use((req,res,next)=>{
     }
     next()
 })
-
-app.use((req, res, next) => {
-    if (req.session && !req.session.flash) {
-        req.session.flash = {};
-    }
-    req.flash = function(type, message) {
-        if (req.session.flash && message) {
-            req.session.flash[type] = message;
-        }
-        return req.session.flash[type];
-    };
-    next();
-});
 
 app.get('/eventos-participando', (req, res) => {
     res.render('eventos-participando', { title: 'Eventos Participando' });
@@ -119,16 +116,9 @@ function checkAuth(req, res, next) {
     next();
 }
 
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Algo deu errado!');
-});
-
-conn
-    .sync()
-    //.sync({force:true})
+conn.sync({ force: true })
     .then(() => {
         console.log('Banco de dados sincronizado');
         app.listen(3000);
     })
-    .catch((err) => console.log(err));
+    .catch(err => console.log(err));

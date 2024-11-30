@@ -1,5 +1,5 @@
-const { Sequelize } = require('sequelize')
-require('dotenv').config()
+const { Sequelize } = require('sequelize');
+require('dotenv').config();
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
@@ -16,13 +16,10 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
         acquire: 30000,
         idle: 10000
     }
-})
+});
 
-try {
-    sequelize.authenticate()
-    console.log('Conexão estabelecida com sucesso.')
-} catch (error) {
-    console.error('Não foi possível conectar ao banco de dados:', error)
-}
+sequelize.authenticate()
+    .then(() => console.log('Conexão estabelecida com sucesso.'))
+    .catch(err => console.error('Não foi possível conectar ao banco de dados:', err));
 
-module.exports = sequelize
+module.exports = sequelize;
