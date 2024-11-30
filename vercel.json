@@ -5,8 +5,7 @@
       "src": "index.js",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["views/**"],
-        "installCommand": "npm ci"
+        "includeFiles": ["views/**"]
       }
     }
   ],
@@ -23,8 +22,5 @@
       "src": "/(.*)",
       "dest": "/index.js"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 } 
