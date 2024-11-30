@@ -3,7 +3,10 @@
   "builds": [
     {
       "src": "index.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["views/**"]
+      }
     }
   ],
   "routes": [
@@ -14,10 +17,6 @@
     {
       "src": "/script/(.*)",
       "dest": "/public/script/$1"
-    },
-    {
-      "src": "/views/(.*)",
-      "dest": "/views/$1"
     },
     {
       "src": "/(.*)",

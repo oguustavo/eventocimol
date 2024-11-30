@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon ./index.js localhost 3000",
-    "build": "mkdir -p /var/task/views && cp -r views/* /var/task/views/"
+    "build": "npm install"
   },
   "keywords": [],
   "author": "",
