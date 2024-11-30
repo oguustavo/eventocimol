@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./index.js localhost 3000"
+    "start": "nodemon ./index.js localhost 3000",
+    "vercel-build": "echo hello"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",
     "cookie-session": "^2.1.0",
@@ -22,13 +23,9 @@
     "express-session": "^1.18.0",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.4",
-    "pg": "^8.11.3",
+    "pg": "^8.13.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.3",
-    "session-file-store": "^1.5.0",
-    "@vercel/postgres": "^0.5.1"
-  },
-  "devDependencies": {
-    "pg": "^8.11.3"
+    "session-file-store": "^1.5.0"
   }
 }

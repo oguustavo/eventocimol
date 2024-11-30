@@ -1,6 +1,6 @@
 const { UPDATE } = require('sequelize/lib/query-types')
 const User = require('../models/User')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 module.exports = class AuthControllers {
 
