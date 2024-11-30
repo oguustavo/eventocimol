@@ -2,14 +2,15 @@ const { Sequelize } = require('sequelize')
 require('dotenv').config()
 
 const sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
+    process.env.DB_NAME || 'sql10748608',
+    process.env.DB_USER || 'sql10748608',
+    process.env.DB_PASSWORD || '7Us75d96Qr',
     {
-        host: process.env.DB_HOST,
+        host: process.env.DB_HOST || 'sql10.freesqldatabase.com',
         dialect: 'mysql',
-        port: process.env.DB_PORT,
-        logging: false, // desativa logs SQL em produção
+        port: process.env.DB_PORT || 3306,
+        dialectModule: require('mysql2'),
+        logging: false,
         pool: {
             max: 5,
             min: 0,
@@ -17,20 +18,9 @@ const sequelize = new Sequelize(
             idle: 10000
         },
         dialectOptions: {
-            // Necessário para alguns serviços de banco de dados gratuitos
-            ssl: process.env.NODE_ENV === 'production' ? {
-                require: true,
-                rejectUnauthorized: false
-            } : false
+            connectTimeout: 60000
         }
     }
 )
-
-try {
-    sequelize.authenticate()
-    console.log('Conectamos ao banco de dados!')
-} catch (error) {
-    console.log(`Não foi possível conectar ao banco de dados: ${error}`)
-}
 
 module.exports = sequelize
