@@ -3,23 +3,25 @@ require('dotenv').config();
 
 let sequelize;
 
-if (!sequelize) {
+if (!global.sequelize) {
     sequelize = new Sequelize(process.env.DATABASE_URL, {
         dialect: 'postgres',
+        dialectModule: require('pg'),
         dialectOptions: {
             ssl: {
                 require: true,
                 rejectUnauthorized: false
             }
         },
-        logging: false,
         pool: {
             max: 2,
             min: 0,
-            acquire: 30000,
             idle: 10000
         }
     });
+    global.sequelize = sequelize;
+} else {
+    sequelize = global.sequelize;
 }
 
 module.exports = sequelize;
