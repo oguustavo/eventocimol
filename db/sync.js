@@ -5,21 +5,19 @@ const Participacao = require('../models/Participacao');
 
 async function sync() {
     try {
-        // Define as relações
         User.hasMany(Participacao);
         Participacao.belongsTo(User);
         
         Evento.hasMany(Participacao);
         Participacao.belongsTo(Evento);
 
-        // Sincroniza os modelos com o banco de dados
-        await sequelize.sync({ force: true });
+        await sequelize.sync();
         console.log('Banco de dados sincronizado com sucesso!');
+        process.exit(0);
     } catch (error) {
         console.error('Erro ao sincronizar banco de dados:', error);
-        throw error; // Propaga o erro para que o build falhe se a sincronização falhar
+        process.exit(1);
     }
 }
 
-// Executa a sincronização
 sync(); 
