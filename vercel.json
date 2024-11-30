@@ -9,12 +9,10 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "index.js"
+      "dest": "/"
     }
   ],
   "env": {
     "NODE_ENV": "production"
-  },
-  "buildCommand": "npm run vercel-build",
-  "installCommand": "npm install --force"
+  }
 } 

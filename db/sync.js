@@ -3,7 +3,7 @@ const User = require('../models/User');
 const Evento = require('../models/Evento');
 const Participacao = require('../models/Participacao');
 
-const sync = async () => {
+async function sync() {
     try {
         // Define as relações
         User.hasMany(Participacao);
@@ -15,11 +15,11 @@ const sync = async () => {
         // Sincroniza os modelos com o banco de dados
         await sequelize.sync({ force: true });
         console.log('Banco de dados sincronizado com sucesso!');
-        process.exit(0);
     } catch (error) {
         console.error('Erro ao sincronizar banco de dados:', error);
-        process.exit(1);
+        throw error; // Propaga o erro para que o build falhe se a sincronização falhar
     }
-};
+}
 
+// Executa a sincronização
 sync(); 
