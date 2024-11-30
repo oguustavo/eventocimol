@@ -16,6 +16,10 @@
       "dest": "/public/script/$1"
     },
     {
+      "src": "/views/(.*)",
+      "dest": "/views/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.js"
     }

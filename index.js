@@ -4,7 +4,7 @@ const session = require('express-session')
 const FileStore = require('session-file-store')(session)
 const flash = require('express-flash')
 const helpers = require('./helpers/handlebars')
-const path = require('path');
+const path = require('path')
 
 const app = express()
 
@@ -56,6 +56,7 @@ const hbs = exphbs.create({
 
 app.engine('handlebars', hbs.engine)
 app.set('view engine', 'handlebars')
+app.set('views', path.join(__dirname, 'views'))
 
 app.use(
     express.urlencoded({
@@ -84,7 +85,7 @@ app.use(
 )
 
 app.use(flash())
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'))
 
 app.use((req,res,next)=>{
     if(req.session.userid){
