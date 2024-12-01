@@ -4,7 +4,7 @@ const path = require('path')
 const Participacao = require('../models/Participacao');
 const {Op} = require('sequelize')
 const Sugestao = require('../models/Sugestao');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const sequelize = require('sequelize');
 
 module.exports = class EventosControllers {
@@ -504,32 +504,51 @@ static async cancelarParticipacao(req, res) {
     }
 
     
-    static async meusEventos(req, res) {
-        const userid = req.session.userid
-
+    static async meusEventos(req,res){
+        
         try {
-            let eventos
-            
-            if (userid === 'admin') {
-                // Se for admin, busca todos os eventos
-                eventos = await Evento.findAll({
-                    include: User,
-                    order: [['createdAt', 'DESC']]
-                })
-            } else {
-                // Se for usuário normal, busca apenas seus eventos
-                eventos = await Evento.findAll({
-                    where: { UserId: userid },
-                    include: User,
-                    order: [['createdAt', 'DESC']]
-                })
-            }
+            const userId = req.session.userid;
 
-            res.render('eventos/meus-eventos', { eventos })
-        } catch (err) {
-            console.log(err)
-            req.flash('message', 'Ocorreu um erro ao buscar seus eventos')
-            res.redirect('/')
+            // Buscar usuário com todos os atributos necessários
+            const user = await User.findOne({ 
+                where: { id: userId },
+                attributes: ['id', 'name', 'email', 'matricula', 'imagem'] // Incluir imagem
+            });
+
+            const participacoes = await Participacao.findAll({
+                where: { UserId: userId },
+                include: [{
+                    model: Evento,
+                    required: true
+                }],
+                raw: true,
+                nest: true 
+            });
+
+           
+            const eventos = participacoes.map(participacao => {
+                const evento = participacao.Evento;
+                const data = new Date(evento.data);
+                evento.dataFormatada = data.toLocaleDateString('pt-BR', {
+                    weekday: 'long',
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+                evento.isParticipating = true;
+                return evento;
+            });
+
+            res.render('eventos/meus-eventos', {
+                eventos,
+                userName: user.name,
+                user, // Passar o objeto user completo
+                layout: 'main-users'
+            });
+
+        } catch (error) {
+            console.log('Erro completo:', error);
+            res.status(500).send('Erro ao carregar eventos participando');
         }
     }
     
