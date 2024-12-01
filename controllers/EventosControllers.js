@@ -4,7 +4,7 @@ const path = require('path')
 const Participacao = require('../models/Participacao');
 const {Op} = require('sequelize')
 const Sugestao = require('../models/Sugestao');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const sequelize = require('sequelize');
 
 module.exports = class EventosControllers {
