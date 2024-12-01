@@ -12,14 +12,15 @@ const checkAuth = (req, res, next) => {
 }
 
 // Rotas principais
+router.get('/', EventosControllers.showEventos);
 router.get('/dashboard', checkAuth, EventosControllers.dashboard);
-router.get('/meus-eventos', checkAuth, EventosControllers.meusEventos);
 router.get('/add', checkAuth, EventosControllers.createEvento);
 router.post('/add', checkAuth, EventosControllers.createEventoSave);
 router.get('/edit/:id', checkAuth, EventosControllers.updateEvento);
 router.post('/edit', checkAuth, EventosControllers.updateEventoPost);
 router.post('/remove', checkAuth, EventosControllers.removeEvento);
-router.get('/participar/:id', checkAuth, EventosControllers.participarEvento);
+router.get('/meus-eventos', checkAuth, EventosControllers.meusEventos);
 router.get('/eventos-participando', checkAuth, EventosControllers.eventosParticipando);
+router.get('/sugestoes', checkAuth, EventosControllers.showSugestoes);
 
 module.exports = router;
